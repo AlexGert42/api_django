@@ -1,0 +1,22 @@
+{% extends 'news/base.html' %}
+
+{% block title %}
+<p>
+    {{title}}
+</p>
+{% endblock %}
+
+{% block content %}
+
+<div class="card mb-3">
+    <img src="{{ content.photo.url }}" class="card-img-top" alt="{{content.title}}">
+    <div class="card-body">
+        <h4 class="card-title">{{content.title}}</h4>
+        <h6 class="text-muted card-title">{{content.cat_id}}</h6>
+        <p class="card-text">{{content.content}}</p>
+        <p class="card-text"><small class="text-muted">{{content.time_create|date:"d-m-Y"}}</small></p>
+    </div>
+</div>
+
+{% endblock %}
+

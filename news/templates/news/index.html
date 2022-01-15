@@ -1,0 +1,41 @@
+{% extends 'news/base.html' %}
+
+{% block title %}
+<p>
+    {{title}}
+</p>
+{% endblock %}
+
+{% block content %}
+
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aperiam beatae commodi consequuntur eius id, ipsam
+    iusto laudantium magnam, magni nulla officiis omnis pariatur possimus provident reprehenderit sapiente ullam
+    voluptatibus.
+</p>
+
+{% for item in content %}
+
+<div class="card mb-3" style="max-width: 60%;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            {% if item.photo %}
+            <img src="{{ item.photo.url }}" class="img-fluid rounded-start" alt="...">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{item.title}}</h5><span>{{item.cat}}</span>
+                <p class="card-text">{{item.content|linebreaks|truncatewords:20}}</p>
+                <a href="{{ item.get_absolute_url }}" class="btn btn-secondary">More...</a>
+                <p class="card-text"><small class="text-muted">{{item.time_create|date:"d-m-Y H:i:s"}}</small></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}
+

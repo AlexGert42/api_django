@@ -1,0 +1,10 @@
+
+
+
+ <ul class="navbar">
+        {% for item in category %}
+         <li class="navbar_item">
+            <a class="link" href="{{item.get_absolute_url}}">{{item.title}}</a>
+        </li>
+        {% endfor %}
+ </ul>
