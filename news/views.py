@@ -68,7 +68,7 @@ class AddPost(CreateView):
 
 
 class RegisterUser(DataMixin, CreateView):
-    form_class = UserCreationForm
+    form_class = RegisterUserForm
     template_name = 'news/login/register.html'
     success_url = reverse_lazy('login')
 

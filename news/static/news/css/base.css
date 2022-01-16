@@ -45,11 +45,11 @@ h1 {
     width: 100%;
 }
 
+.imput_formuser {
+    width: 1000px;
+    padding: 10px 20px;
+    border: 1px solid #fcfcfc;
+    outline: 0
 
-
-input {
-    border: 1px solid #ccc;
-
-    padding: 10px 20px
 }
     
