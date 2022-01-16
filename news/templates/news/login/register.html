@@ -10,14 +10,13 @@
 
 <form method="post" class="formuser">
     {% csrf_token %}
-<!--    {{ form.as_p }}-->
 
     {% for item in form %}
         <p>
-            <lable class="lable" for="{{ item.id_for_label  }}">{{ item.label }}: </lable>
+            <label class="label" for="{{ item.id_for_label }}">{{ item.label }}: </label>
             {{ item }}
         </p>
-        <div class="error">{{ item.error }}</div>
+        <div class="error">{{ item.errors }}</div>
     {% endfor %}
     <button class="btn btn-success" type="submit">Send</button>
 </form>

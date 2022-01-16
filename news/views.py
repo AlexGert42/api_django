@@ -1,4 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -10,7 +11,7 @@ from .models import Post, Category
 from .utils import DataMixin
 
 
-class PostHome(LoginRequiredMixin, DataMixin, ListView):
+class PostHome(DataMixin, ListView):
     model = Post
     template_name = 'news/index.html'
     context_object_name = 'content'
@@ -76,6 +77,21 @@ class RegisterUser(DataMixin, CreateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Register')
         return dict(list(context.items()) + list(c_def.items()))
+
+
+
+class LoginUser(DataMixin, LoginView):
+    form_class = AuthenticationForm
+    template_name = 'news/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Login')
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('about')
+
 
 
 
@@ -149,11 +165,6 @@ def contacts(request):
     return render(request, 'news/contacts.html', context)
 
 
-def login(request):
-    context = {
-        'title': 'Login'
-    }
-    return render(request, 'news/login.html', context)
 
 def PageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Page Not Found</h1>')

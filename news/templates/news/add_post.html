@@ -18,7 +18,7 @@
     {% for item in form %}
     <div class="mb-3">
         <p class="form_item">
-            <label for="{{ item.id_for_lable }}">{{ item.label }}:</label>
+            <label for="{{ item.id_for_label }}">{{ item.label }}:</label>
             {{ item }}
         </p>
         <div class="form-error">{{item.errors}}</div>
