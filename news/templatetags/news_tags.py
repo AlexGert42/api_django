@@ -1,4 +1,5 @@
 from django import template
+from django.contrib.auth.models import User
 from news.models import *
 
 register = template.Library()
@@ -15,20 +16,20 @@ def show_navbar():
     return {'category': category}
 
 
-@register.inclusion_tag('news/header/header.html')
-def show_header():
-    pages = [
-        {
-            'title': 'About',
-            'href': 'about'
-        },
-        {
-            'title': 'Add Post',
-            'href': 'addpost'
-        },
-        {
-            'title': 'Contacts',
-            'href': 'contacts'
-        }
-    ]
-    return {'menu': pages}
+# @register.inclusion_tag('news/header/header.html')
+# def show_header():
+#     pages = [
+#         {
+#             'title': 'About',
+#             'href': 'about'
+#         },
+#         {
+#             'title': 'Add Post',
+#             'href': 'addpost'
+#         },
+#         {
+#             'title': 'Contacts',
+#             'href': 'contacts'
+#         }
+#     ]
+#     return {'menu': pages}

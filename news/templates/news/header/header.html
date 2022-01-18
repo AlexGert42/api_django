@@ -1,26 +1,27 @@
-<header class="header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}">Home</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                    {% for item in menu %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url item.href %}">{{item.title}}</a>
-                    </li>
-                    {% endfor %}
-
-                </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
 
 
-                <a class="btn btn-outline" href="{% url 'register' %}" type="button">Регистрация</a>
-                <a class="btn btn-outline" href="{% url 'login' %}" type="button">Войти</a>
-            </div>
-        </div>
-    </nav>
-</header>
+<!--<header class="header">-->
+<!--    <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+<!--        <div class="container-fluid">-->
+<!--            <a class="navbar-brand" href="{% url 'home' %}">Home</a>-->
+<!--            <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--                <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+
+<!--                    {% for item in menu %}-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="{% url item.href %}">{{item.title}}</a>-->
+<!--                    </li>-->
+<!--                    {% endfor %}-->
+
+<!--                </ul>-->
+
+<!--                    <h3>dsdfdfdsfd {{user.username}}</h3>-->
+<!--&lt;!&ndash;                    <a class="btn btn-outline" href="{% url 'logout' %}">Выйти</a>&ndash;&gt;-->
+
+<!--                    <a class="btn btn-outline" href="{% url 'register' %}" type="button">Регистрация</a>-->
+<!--                    <a class="btn btn-outline" href="{% url 'login' %}" type="button">Войти</a>-->
+
+<!--            </div>-->
+<!--        </div>-->
+<!--    </nav>-->
+<!--</header>-->

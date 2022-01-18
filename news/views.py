@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
@@ -11,7 +11,10 @@ from .models import Post, Category
 from .utils import DataMixin
 
 
-class PostHome(DataMixin, ListView):
+
+
+
+class PostHome(LoginRequiredMixin, DataMixin, ListView):
     model = Post
     template_name = 'news/index.html'
     context_object_name = 'content'
@@ -29,10 +32,13 @@ class PostHome(DataMixin, ListView):
         return context
 
     def get_queryset(self):
-        return Post.objects.filter(is_published=True)
+        return Post.objects.filter(is_published=True).select_related('cat')
 
 
-class PostCategory(ListView):
+
+
+
+class PostCategory(LoginRequiredMixin, DataMixin, ListView):
     model = Post
     template_name = 'news/index.html'
     context_object_name = 'content'
@@ -40,31 +46,46 @@ class PostCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = str(context['content'][0].cat)
+        c_def = self.get_user_context(title=str(context['content'][0].cat))
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
     def get_queryset(self):
-        return Post.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True)
+        return Post.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True).select_related('cat')
 
 
-class ShowPost(DetailView):
+
+
+class ShowPost(LoginRequiredMixin, DataMixin, DetailView):
     model = Post
     template_name = 'news/post.html'
     slug_url_kwarg = 'post_slug'
     context_object_name = 'content'
     allow_empty = False
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=context['content'].title)
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
 
 
-class AddPost(CreateView):
+
+
+
+
+class AddPost(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddPostForm
     template_name = 'news/add_post.html'
+    context_object_name = 'content'
     success_url = reverse_lazy('home')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Add Post'
+        c_def = self.get_user_context(title='Add Post')
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
+
 
 
 
@@ -78,10 +99,15 @@ class RegisterUser(DataMixin, CreateView):
         c_def = self.get_user_context(title='Register')
         return dict(list(context.items()) + list(c_def.items()))
 
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
 
 
 class LoginUser(DataMixin, LoginView):
-    form_class = AuthenticationForm
+    form_class = LoginUserForm
     template_name = 'news/login.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -90,12 +116,18 @@ class LoginUser(DataMixin, LoginView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_success_url(self):
-        return reverse_lazy('about')
+        return reverse_lazy('home')
+
+
+class LogoutUser(DataMixin):
+    pass
 
 
 
 
-
+def logout_user(request):
+    logout(request)
+    return redirect('login')
 
 
 # def index(request):
